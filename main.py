@@ -1,7 +1,7 @@
 import itertools
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     all_chars = set()
     czech_characters = "ěščřžýáíéůqwertyuiopasdfghjklzxcvbnm"
     for c in czech_characters:
@@ -9,20 +9,20 @@ if __name__ == '__main__':
 
     # CHANGE HERE
     #
-    #green characters must fit on position and be blanked by spaces
+    # green characters must fit on position and be left-padded by spaces
     precise = " u e"
 
-    # list of oranges along with zero-index position where it does not fit
+    # list of oranges along with zero-index position where it does not fit (3rd position is expressed as 2)
     orange_desc = {"l": [2], "c": [4]}
-    oranges = set(orange_desc.keys())
-    not_contained = set()
 
     # set the characters that do not belong to the word
+    not_contained = set()
     for c in "žrtyiopad":
         not_contained.add(c)
     #
-    # STOP CHANGING
+    # DO NOT CHANGE ANY FURTHER
 
+    oranges = set(orange_desc.keys())
     orange_options = list(itertools.product("o", oranges, repeat=1))
     print(orange_options)
 
@@ -33,9 +33,12 @@ if __name__ == '__main__':
     FINAL_LENGTH = 5
     while len(precise) < FINAL_LENGTH:
         precise += " "
+    precise = precise[:FINAL_LENGTH]  # to be sure if someone is too eager on left blank padding
 
     word_count = 0
-    fillings = itertools.permutations(orange_options + unused_options, r=precise.count(" "))
+    fillings = itertools.permutations(
+        orange_options + unused_options, r=precise.count(" ")
+    )
     for f in fillings:
         contained_oranges = set()
         for subf in f:
@@ -63,8 +66,10 @@ if __name__ == '__main__':
                 if is_orange_in_forbidden_position:
                     break
 
-        if not is_orange_in_forbidden_position:
-            print(completed)
-            word_count += 1
+        if is_orange_in_forbidden_position:
+            continue
+
+        print(completed)
+        word_count += 1
 
     print(f"\nWord count is {word_count}")
