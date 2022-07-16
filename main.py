@@ -2,33 +2,28 @@ import itertools
 
 
 if __name__ == "__main__":
-    all_chars = set()
+    # choose your wordle language mutation character set
     czech_characters = "ěščřžýáíéůqwertyuiopasdfghjklzxcvbnm"
-    for c in czech_characters:
-        all_chars.add(c)
+    all_chars = set(czech_characters)
 
     # CHANGE HERE
     #
     # green characters must fit on position and be left-padded by spaces
-    precise = " u e"
+    precise = ""
 
     # list of oranges along with zero-index position where it does not fit (3rd position is expressed as 2)
-    orange_desc = {"l": [2], "c": [4]}
+    orange_desc = {"i": [3], "o": [1,3,4], "t": [2,3,4], "k": [0], "s": [2]}
 
     # set the characters that do not belong to the word
-    not_contained = set()
-    for c in "žrtyiopad":
-        not_contained.add(c)
+    not_contained = set("áeryupadbn")
     #
     # DO NOT CHANGE ANY FURTHER
 
     oranges = set(orange_desc.keys())
     orange_options = list(itertools.product("o", oranges, repeat=1))
-    print(orange_options)
 
     free_chars = all_chars - not_contained - oranges
     unused_options = list(itertools.product("f", free_chars, repeat=1))
-    print(unused_options)
 
     FINAL_LENGTH = 5
     while len(precise) < FINAL_LENGTH:
